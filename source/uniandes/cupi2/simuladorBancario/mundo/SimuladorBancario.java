@@ -48,6 +48,7 @@ public class SimuladorBancario
      * CDT del cliente.
      */
     private CDT inversion;
+    
 
     // -----------------------------------------------------------------
     // Métodos
@@ -194,6 +195,11 @@ public class SimuladorBancario
     {
         mesActual += 1;
         ahorros.actualizarSaldoPorPasoMes( );
+     
+        // Agregamos la el metodo registarSaldo al metodo avanzarMes
+        ahorros.registrarSaldo();
+        corriente.limpiarTransacciones(); 
+        ahorros.limpiarTransacciones(); // agregamos el metodo para limpiar las transacciones al final de mes.
     }
 
     /**
@@ -206,22 +212,36 @@ public class SimuladorBancario
         double valorCierreCDT = inversion.cerrar( mesActual );
         corriente.consignarMonto( valorCierreCDT );
     }
-
+    
+    public double PromedioAhorros(int mesInicio, int mesFin) {
+        return ahorros.calcularPromedio(mesInicio, mesFin);
+    }
+    
     /**
      * Retorna el resultado de la extensión 1.
      * @return Respuesta 1.
      */
     public String metodo1( )
     {
-        return "Respuesta 1";
+        int mesInicio = 1;
+        int mesFin = mesActual;
+
+        double promedioAhorros = PromedioAhorros(mesInicio, mesFin);
+        
+        return "Saldo promedio de la cuenta de ahorros entre los meses " +
+               mesInicio + " y " + mesFin + ": $" + String.format("%.2f", promedioAhorros);
     }
 
     /**
      * Retorna el resultado de la extensión 2.
      * @return Respuesta 2.
      */
-    public String metodo2( )
+    public String metodo2()
     {
-        return "Respuesta 2";
+        String resumen = "Resumen de transacciones del mes " + mesActual + ":\n";
+        resumen += "\nCuenta de Ahorros:\n" + ahorros.resumenTransacciones();
+        resumen += "\nCuenta Corriente:\n" + corriente.resumenTransacciones();
+        return resumen;
     }
+
 }

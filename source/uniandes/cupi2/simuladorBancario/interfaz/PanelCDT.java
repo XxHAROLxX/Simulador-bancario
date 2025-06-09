@@ -1,18 +1,18 @@
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * Universidad de los Andes (Bogotá - Colombia)
- * Departamento de Ingeniería de Sistemas y Computación
- * Licenciado bajo el esquema Academic Free License version 2.1
+ * Departamento de Ingeniería de Sistemas y Computación 
+ * Licenciado bajo el esquema Academic Free License version 2.1 
  *
  * Proyecto Cupi2 (http://cupi2.uniandes.edu.co)
  * Ejercicio: n1_simuladorBancario
  * Autor: Equipo Cupi2 2017
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
  */
 package uniandes.cupi2.simuladorBancario.interfaz;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout; // Mantendremos GridLayout, pero ajustaremos sus filas/columnas
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -63,23 +63,24 @@ public class PanelCDT extends JPanel implements ActionListener
      * Etiqueta del saldo del CDT.
      */
     private JLabel etiquetaSaldoCdt;
+    
+    
+    /**
+     * Etiqueta del interes del CDT.
+     */
+    private JLabel etiquetaInteresCdt;
 
     /**
      * Campo donde se visualiza el saldo del CDT.
      */
     private JTextField txtSaldoCdt;
-
+    
     /**
-     * Etiqueta del interés del CDT. // NUEVO ATRIBUTO
+     * Campo donde se visualiza el interes del CDT.
      */
-    private JLabel etiquetaInteresCdt; // NUEVO ATRIBUTO
-
-    /**
-     * Campo donde se visualiza el interés del CDT. // NUEVO ATRIBUTO
-     */
-    private JTextField txtInteresCdt; // NUEVO ATRIBUTO
-
-    /**
+    private JTextField txtInteresCdt;
+    
+    /** 
      * Boton para abrir un nuevo CDT.
      */
     private JButton btnAbrirCDT;
@@ -105,14 +106,13 @@ public class PanelCDT extends JPanel implements ActionListener
         principal = pPrincipal;
 
         etiquetaSaldoCdt = new JLabel( "Saldo CDT: " );
-        txtSaldoCdt = new JTextField( );
+        txtSaldoCdt = new JTextField( 14 );
         txtSaldoCdt.setEditable( false );
-
-        // Inicializar los nuevos atributos para el interés // NUEVO
-        etiquetaInteresCdt = new JLabel( "Interés CDT: " ); // NUEVO
-        txtInteresCdt = new JTextField( ); // NUEVO
-        txtInteresCdt.setEditable( false ); // El interés tampoco debería ser editable // NUEVO
-
+        
+        etiquetaInteresCdt = new JLabel( " Interes CDT: ");
+        txtInteresCdt = new JTextField( 14 );
+        txtInteresCdt.setEditable( false );
+        
         btnAbrirCDT = new JButton( "Abrir" );
         btnAbrirCDT.setActionCommand( ABRIR_CDT );
         btnAbrirCDT.addActionListener( this );
@@ -125,23 +125,18 @@ public class PanelCDT extends JPanel implements ActionListener
 
         JPanel panelInfo = new JPanel( );
         JPanel panelBotones = new JPanel( );
-
-        // MODIFICACIÓN: Cambiar el GridLayout a 2 filas, 2 columnas para Saldo e Interés
-        panelInfo.setLayout( new GridLayout( 2, 2 ) ); // Ahora son 2 filas y 2 columnas
+        panelInfo.setLayout( new GridLayout( 2, 2, 2, 2 ) );
         panelInfo.setBorder( new EmptyBorder( 0, 0, 5, 0 ) );
         panelBotones.setLayout( new BorderLayout( ) );
         panelBotones.setBorder( new EmptyBorder( 0, 5, 5, 5 ) );
         panelBotones.setPreferredSize( new Dimension( 215, 0 ) );
 
         // Ubica los elementos en el panel
-        // Fila 1: Saldo CDT
         panelInfo.add( etiquetaSaldoCdt );
         panelInfo.add( txtSaldoCdt );
-
-        // Fila 2: Interés CDT // NUEVO
-        panelInfo.add( etiquetaInteresCdt ); // NUEVO
-        panelInfo.add( txtInteresCdt ); // NUEVO
-
+        panelInfo.add( etiquetaInteresCdt );
+        panelInfo.add( txtInteresCdt );
+        
         panelBotones.add( btnAbrirCDT, BorderLayout.WEST );
         panelBotones.add( new JLabel( " " ), BorderLayout.CENTER );
         panelBotones.add( btnCerrarCDT, BorderLayout.EAST );
@@ -150,9 +145,6 @@ public class PanelCDT extends JPanel implements ActionListener
         add( panelInfo, BorderLayout.CENTER );
         add( panelBotones, BorderLayout.EAST );
         setBorder( new CompoundBorder( new EmptyBorder( 0, 3, 5, 3 ), new TitledBorder( "CDT" ) ) );
-
-        // Inicializar los campos con valores vacíos o predeterminados
-        actualizarSaldoCDT( "$ 0,00", "0.0%" ); // Llama al nuevo método con valores iniciales
     }
 
     // -----------------------------------------------------------------
@@ -163,26 +155,12 @@ public class PanelCDT extends JPanel implements ActionListener
      * Actualiza el saldo del CDT del cliente en la interfaz. <br>
      * <b>post: </b> Se actualizó la información con el saldo en CDT.
      * @param pSaldo Saldo en el CDT del cliente. pSaldo != null.
-     *
-     * Este método antiguo se elimina o se marca como obsoleto.
-     * public void actualizarSaldoCDT( String pSaldo )
-     * {
-     * txtSaldoCdt.setText( pSaldo );
-     * }
      */
-
-    /**
-     * Actualiza el saldo y el interés del CDT del cliente en la interfaz. <br>
-     * <b>post: </b> Se actualizó la información con el saldo y el interés en CDT.
-     * @param pSaldo Saldo en el CDT del cliente (String formateado, ej. "$ 1.000,00"). pSaldo != null.
-     * @param pInteres Interés en el CDT del cliente (String formateado, ej. "0.6%"). pInteres != null.
-     */
-    public void actualizarSaldoCDT( String pSaldo, String pInteres ) // MÉTODO MODIFICADO / NUEVO
+    public void actualizarSaldoCDT( String pSaldo , String interesCdt)
     {
         txtSaldoCdt.setText( pSaldo );
-        txtInteresCdt.setText( pInteres ); // Actualiza el nuevo campo de interés
+        txtInteresCdt.setText( interesCdt + "$" );
     }
-
 
     /**
      * Manejo de los eventos de los botones.
@@ -207,5 +185,8 @@ public class PanelCDT extends JPanel implements ActionListener
         {
             principal.cerrarCDT( );
         }
+
+
     }
+
 }

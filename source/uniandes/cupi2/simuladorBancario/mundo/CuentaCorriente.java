@@ -10,6 +10,9 @@
  */
 package uniandes.cupi2.simuladorBancario.mundo;
 
+import java.util.ArrayList;
+
+
 /**
  * Clase que representa la cuenta corriente de un cliente.
  */
@@ -23,6 +26,11 @@ public class CuentaCorriente
      * Saldo actual de la cuenta corriente.
      */
     private double saldo;
+    
+    
+    private ArrayList<String> transaccionesMensuales = new ArrayList<>(); // objeto que alamcena las transacciones mensuales.
+
+
 
     // -----------------------------------------------------------------
     // Métodos
@@ -54,7 +62,23 @@ public class CuentaCorriente
     public void consignarMonto( double pMonto )
     {
         saldo = saldo + pMonto;
+        transaccionesMensuales.add("Consignación: $" + String.format("%.2f", pMonto));
+       
     }
+    
+    public String resumenTransacciones()
+    {
+        if (transaccionesMensuales.isEmpty()) {
+            return "No se han realizado transacciones este mes.";
+        }
+
+        StringBuilder resumen = new StringBuilder();
+        for (String transaccion : transaccionesMensuales) {
+            resumen.append(transaccion).append("\n");
+        }
+        return resumen.toString();
+    }
+
 
     /**
      * Retira un monto de dinero de la cuenta del cliente. <br>
@@ -64,5 +88,18 @@ public class CuentaCorriente
     public void retirarMonto( double pMonto )
     {
         saldo = saldo - pMonto;
+        transaccionesMensuales.add("Retiro: $" + String.format("%.2f", pMonto));
+        
     }
+    
+    /**
+     * Limpia la lista de transacciones del mes actual.
+     */
+    public void limpiarTransacciones()
+    {
+        transaccionesMensuales.clear(); // para eliminar todos elementos de la transacción actual antes de que pase al siguiente mes
+
+    }
+
+
 }

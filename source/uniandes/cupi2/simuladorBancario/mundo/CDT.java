@@ -10,6 +10,9 @@
  */
 package uniandes.cupi2.simuladorBancario.mundo;
 
+import java.util.ArrayList;
+
+
 /**
  * Clase que representa un CDT.
  */
@@ -33,7 +36,7 @@ public class CDT
      * Mes de apertura del CDT.
      */
     private int mesApertura;
-
+    
     // -----------------------------------------------------------------
     // Métodos
     // -----------------------------------------------------------------
@@ -57,7 +60,13 @@ public class CDT
     {
         return interesMensual;
     }
+    
+    public double darSaldoCdt()
+    {
+    	 return  valorInvertido;
+    }
 
+    
     /**
      * Inicia una inversión en un CDT .<br>
      * <b>post: </b> Se cambian los valores del CDT, con los valores recibidos. <br>
@@ -79,6 +88,7 @@ public class CDT
      */
     public double calcularValorPresente( int pMesActual )
     {
+    	
         int mesesTranscurridos = pMesActual - mesApertura;
         return ( double ) ( valorInvertido + ( mesesTranscurridos * interesMensual * valorInvertido ) );
     }
@@ -97,4 +107,5 @@ public class CDT
         mesApertura = 0;
         return valorCierre;
     }
+
 }
